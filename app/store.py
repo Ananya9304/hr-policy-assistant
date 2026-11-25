@@ -37,9 +37,9 @@ class Store:
         self.db.execute("PRAGMA foreign_keys = ON")
         self.db.executescript(SCHEMA)
         self.lock = threading.Lock()
-        self._cache = None  # (chunks, matrix); rebuilt after every write
+        self._cache = None  
 
-    # ------------------------------------------------------------ writes
+
     def upsert_document(self, document: str, filename: str, sha256: str,
                         chunks: list[Chunk], vectors: np.ndarray) -> tuple[DocumentInfo, bool]:
         """Insert or replace a document. Returns (info, changed)."""
@@ -47,9 +47,9 @@ class Store:
         with self.lock, self.db:
             row = self.db.execute("SELECT sha256, version FROM documents WHERE doc_id=?", (doc_id,)).fetchone()
             if row and row[0] == sha256:
-                return self.get_document(doc_id), False        # same file uploaded again: no-op
+                return self.get_document(doc_id), False        
             version = row[1] + 1 if row else 1
-            # Replace in one transaction: readers never see a half-indexed policy
+            
             self.db.execute("DELETE FROM documents WHERE doc_id=?", (doc_id,))
             self.db.execute(
                 "INSERT INTO documents VALUES (?,?,?,?,?,?)",
@@ -69,7 +69,7 @@ class Store:
             self._cache = None
         return cur.rowcount > 0
 
-    # ------------------------------------------------------------ reads
+   
     def get_document(self, doc_id: str) -> DocumentInfo | None:
         row = self.db.execute(
             """SELECT d.doc_id, d.document, d.filename, d.version, COUNT(c.chunk_id), d.uploaded_at
