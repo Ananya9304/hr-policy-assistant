@@ -4,7 +4,7 @@
 **College:** Kalyani Government Engineering College
 **Email:** ghoshanu984@gmail.com
 **Phone:** 9064003516
-**Demo video:** [add link]
+**Demo video:** (https://drive.google.com/file/d/1ZxlQedHJ57-9HEGSexBwCRGZRHEIo6N1/view?usp=sharing)
 
 ---
 
